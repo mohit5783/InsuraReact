@@ -79,13 +79,13 @@ To run the frontend solution locally, follow these steps:
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/mohit5783/zurich-fe.git
 ```
 
 Install the dependencies:
 
 ```bash
-cd Zurich-Frontend
+cd zurich-fe
 npm install
 ```
 
