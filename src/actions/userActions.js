@@ -18,15 +18,26 @@ export const fetchUsersFailure = (error) => ({
   payload: error,
 });
 
-export const fetchUsers = () => {
+export const fetchUsers = (filtered) => {
   return async (dispatch) => {
     dispatch(fetchUsersRequest());
     try {
-      const response = await axios.get("https://reqres.in/api/users");
-      const filteredUsers = response.data.data;
-      dispatch(fetchUsersSuccess(filteredUsers));
+      if (filtered) {
+        const response = await axios.get("https://reqres.in/api/users");
+        const users = response.data.data;
+        const filteredUsers = users.filter(
+          (user) =>
+            user.first_name.startsWith("G") || user.last_name.startsWith("W")
+        );
+        dispatch(fetchUsersSuccess(filteredUsers));
+      } else {
+        const response = await axios.get("https://reqres.in/api/users");
+        const users = response.data.data;
+        dispatch(fetchUsersSuccess(users));
+      }
     } catch (error) {
       dispatch(fetchUsersFailure(error.message));
     }
   };
 };
+

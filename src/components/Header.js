@@ -4,11 +4,34 @@ import { useNavigate } from "react-router-dom";
 import { HomeOutlined, IdcardOutlined } from "@ant-design/icons";
 import { ReactComponent as LogoImage } from "../images/zurich-logo-blue.svg";
 import { useEffect, useState } from "react";
-import { googleLogout } from "@react-oauth/google";
 import { FaSignOutAlt } from "react-icons/fa";
+import { logout } from "../actions/authActions";
+import { useDispatch } from "react-redux";
+
+const menuItems = [
+  {
+    key: "home",
+    title: "Home",
+    label: "Home",
+    icon: <HomeOutlined style={{ fontSize: 18 }} />,
+  },
+  {
+    key: "error",
+    title: "Unknown Page",
+    label: "Unknown Page",
+    icon: <IdcardOutlined style={{ fontSize: 18 }} />,
+  },
+  {
+    key: "logout",
+    title: "Logout",
+    label: "Logout",
+    icon: <FaSignOutAlt style={{ fontSize: 18 }} />,
+  },
+];
 
 const Header = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [selectedMenu, setSelectedMenu] = useState("/");
   useEffect(() => {
     let pathName = window.location.pathname;
@@ -16,8 +39,20 @@ const Header = (props) => {
     setSelectedMenu(pathName);
   }, []);
   const Logout = () => {
+    dispatch(logout());
     navigate("/");
-    googleLogout();
+  };
+  const onMenuClick = (event) => {
+    const { key } = event;
+    if (key === "logout") {
+      Logout();
+    }
+    if (key === "home") {
+      navigate("/");
+    }
+    if (key === "error") {
+      navigate("/error");
+    }
   };
   return (
     <Head>
@@ -38,31 +73,9 @@ const Header = (props) => {
           display: "flex",
           alignItems: "center",
         }}
-      >
-        <Menu.Item
-          key="home"
-          onClick={() => navigate("/home")}
-          icon={<HomeOutlined style={{ fontSize: 18 }} />}
-        >
-          Home
-        </Menu.Item>
-        <Menu.Item
-          key="about"
-          onClick={() => navigate("/error")}
-          icon={<IdcardOutlined style={{ fontSize: 18 }} />}
-        >
-          About
-        </Menu.Item>
-        {props.addLogoutButton && (
-          <Menu.Item
-            key="logout"
-            onClick={Logout}
-            icon={<FaSignOutAlt style={{ fontSize: 18 }} />}
-          >
-            Logout
-          </Menu.Item>
-        )}
-      </Menu>
+        items={menuItems}
+        onClick={onMenuClick}
+      ></Menu>
     </Head>
   );
 };

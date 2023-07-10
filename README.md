@@ -1,6 +1,6 @@
 # Zurich-Frontend
 
-This repository contains the frontend solution for the Zurich application, which is built using React and Redux. The application provides a frontend portal for managing user data and implements authentication using Google OAuth.
+This repository contains the frontend solution for the Zurich application, which is built using React and Redux. The application provides a frontend portal for managing user data and implements authentication using Google OAuth. This assignement is developed using React JS. The portal utilizes Google OAuth2 for user authentication. The following sections provide details about the technology stack, hosting environment, design patterns, and code for the frontend portal.
 
 ## Technology Stack
 
@@ -8,10 +8,11 @@ The frontend solution is built using the following technologies:
 
 - **React**: A JavaScript library for building user interfaces.
 - **Redux**: A predictable state container for managing the application's state.
-- **Axios**: A popular library for making HTTP requests to the backend API.
 - **React Router**: A library for handling routing within the application.
 - **React OAuth Google**: A library for implementing Google OAuth authentication in the application.
 - **CSS**: Cascading Style Sheets for styling the user interface.
+- **Ant Design**: A UI component library that provides pre-designed and customizable components.
+- **Axios**: A promise-based HTTP client for making API requests.
 
 ## Hosting Environment
 
@@ -35,7 +36,7 @@ To host a React application on AWS, you can follow these steps:
 
 ## Design Patterns
 
-The frontend solution utilizes the following design patterns:
+The project follows a modular design pattern, with separate components for different parts of the application. The components are designed to be reusable and configurable, promoting code reusability and maintainability. The Redux library is used for state management, allowing centralized and predictable state handling across the application.
 
 - **Redux (State Management)**: Redux is used for managing the application's state. It provides a predictable state container and facilitates state updates through actions and reducers.
 
@@ -45,7 +46,7 @@ The frontend solution utilizes the following design patterns:
 
 ## Security - Securing the Home Page:
 
-To secure the home page, I have implemented the following measures:
+To secure the home page from unauthorized access, the project utilizes authentication through `authActions` and `authReducers`. Users can log in using their Google account or enter the email & password, and only authenticated users can access the home page. The authentication process ensures that only authorized users can view and interact with the portal's features.
 
 - Implemented authentication and authorization mechanisms to restrict access to authorized users only.
 - Secured login system with proper user authentication.
@@ -72,6 +73,13 @@ The frontend solution consists of the following key files and directories:
 
 Feel free to explore these files for a deeper understanding of the code structure and implementation.
 
+## Authentication With/ Without react-oauth Plugin
+
+I wanted to provide a more comprehensive perspective, so I also developed a manual authentication process. Both methods utilize the same powerful actions to authenticate users.
+
+To make it happen, I've designed the `actions/authActions.js` file with all the necessary action creators and actions to handle the authentication process. The `actions/authReducer.js` file takes charge of managing the authentication state through a well-defined reducer. And of course, I've crafted an elegant and user-friendly login component in `components/Login.js`, where users can enter their email and password for authentication. Once the authentication succeeds, our solution seamlessly redirects users to the highly secure home page, where they can access portal's home page. 
+
+
 ## Getting Started
 
 To run the frontend solution locally, follow these steps:
@@ -97,7 +105,14 @@ npm start
 
 The application will be accessible at http://localhost:3000.
 
+### Login Details
+
+```bash
+UserName: user@example.com
+Password: password
+```
+
 Conclusion
 The Zurich-Frontend repository provides a frontend solution built using React, Redux, and other related technologies. It utilizes design patterns such as Redux (state management), React Router (routing), and React OAuth Google (authentication) to create a robust and user-friendly application.
 
-If you have any questions or need further assistance, please don't hesitate to reach out.
+If you have any questions or need further assistance, please don't hesitate to reach out. Feel free to explore the Zurich-Frontend repository and unleash the power of frontend development!

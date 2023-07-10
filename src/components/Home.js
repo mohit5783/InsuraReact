@@ -1,57 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Layout, List, Button, Pagination, Space, Select } from "antd";
+import { useNavigate } from "react-router-dom";
+import { Layout, List, Button, Space } from "antd";
 import { fetchUsers } from "../actions/userActions";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const Home = () => {
-  const { users, error } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-
-  const cred = useLocation();
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { users, error } = useSelector((state) => state.users);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(4);
   const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
+    if (!user) {
+      nav("/");
+    }
     dispatch(fetchUsers());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
-    if (!cred.state || error) {
-      nav("/error");
-    } else {
-      setFilteredUsers(users);
+    setFilteredUsers(users);
+  }, [users]);
+
+  const retrieveFilteredData = () => {
+    try {
+      dispatch(fetchUsers(true));
+    } catch (err) {
+      console.error("Error fetching data:", err, error);
+      setFilteredUsers([]);
     }
-  }, [nav, cred, error, users]);
-
-  const handleFilter = () => {
-    let filtered = users.filter(
-      (user) =>
-        user.first_name.startsWith("G") || user.last_name.startsWith("W")
-    );
-
-    setFilteredUsers(filtered);
-    setCurrentPage(1);
   };
 
   const handleShowAll = () => {
-    setFilteredUsers(users);
-    setCurrentPage(1); // Reset page number to 1 when showing all records
+    try {
+      dispatch(fetchUsers());
+    } catch (err) {
+      console.error("Error fetching data in Show All:", err, error);
+      setFilteredUsers([]);
+    }
   };
-
-  const handleChangePage = (page) => {
-    setCurrentPage(page);
-  };
-
-  const paginatedUsers = filteredUsers.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
   return (
     <Layout>
@@ -62,72 +52,29 @@ const Home = () => {
           <Button type="primary" onClick={handleShowAll}>
             Show All
           </Button>
-          <Button type="primary" onClick={handleFilter}>
-            Filtered Records
+          <Button type="primary" onClick={retrieveFilteredData}>
+            Filtered
           </Button>
-          <div style={{ float: "right" }}>
-            <label>Page Size: </label>
-            <Select
-              defaultValue={pageSize}
-              style={{
-                width: 150,
-              }}
-              onChange={(value) => setPageSize(value)}
-              options={[
-                {
-                  label: "Recommended: 4",
-                  options: [
-                    {
-                      label: "1",
-                      value: 1,
-                    },
-                    {
-                      label: "2",
-                      value: 2,
-                    },
-                    {
-                      label: "3",
-                      value: 3,
-                    },
-                    {
-                      label: "4",
-                      value: 4,
-                    },
-                  ],
-                },
-              ]}
-            />
-          </div>
         </Space>
         <List
           style={{ marginTop: 40, width: "100%", padding: 20 }}
-          grid={{ column: pageSize, xs: 1, sm: 1, md: 2, lg: 4 }}
-          dataSource={paginatedUsers}
+          dataSource={filteredUsers}
           renderItem={(user) => (
             <List.Item key={user.id}>
               <List.Item.Meta
-                avatar={<img src={user.avatar} alt={user.first_name} />}
-                title={
-                  <h2 style={{ fontSize: 26 }}>
-                    {user.first_name} {user.last_name}
-                  </h2>
+                avatar={
+                  <img
+                    src={user.avatar}
+                    alt={user.first_name}
+                    height={64}
+                    width={64}
+                  />
                 }
+                title={user.first_name + " " + user.last_name}
                 description={user.email}
               />
             </List.Item>
           )}
-        />
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={filteredUsers.length}
-          onChange={handleChangePage}
-          style={{
-            marginTop: 16,
-            textAlign: "left",
-            padding: 2,
-            marginLeft: 20,
-          }}
         />
       </div>
       <Footer />
