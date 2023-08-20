@@ -1,6 +1,6 @@
-# Zurich-Frontend
+# InsuraReact
 
-This repository contains the frontend solution for the Zurich application, which is built using React and Redux. The application provides a frontend portal for managing user data and implements authentication using Google OAuth. This assignement is developed using React JS. The portal utilizes Google OAuth2 for user authentication. The following sections provide details about the technology stack, hosting environment, design patterns, and code for the frontend portal.
+This repository contains the frontend solution for the InsuraReact application, which is built using React and Redux. The application provides a frontend portal for managing user data and implements authentication using Google OAuth. This assignement is developed using React JS. The portal utilizes Google OAuth2 for user authentication. The following sections provide details about the technology stack, hosting environment, design patterns, and code for the frontend portal.
 
 ## Technology Stack
 
@@ -87,13 +87,13 @@ To run the frontend solution locally, follow these steps:
 Clone the repository:
 
 ```bash
-git clone https://github.com/mohit5783/zurich-fe.git
+git clone https://github.com/mohit5783/InsuraReact.git
 ```
 
 Install the dependencies:
 
 ```bash
-cd zurich-fe
+cd InsuraReact
 npm install
 ```
 
@@ -113,6 +113,6 @@ Password: password
 ```
 
 Conclusion
-The Zurich-Frontend repository provides a frontend solution built using React, Redux, and other related technologies. It utilizes design patterns such as Redux (state management), React Router (routing), and React OAuth Google (authentication) to create a robust and user-friendly application.
+The InsuraReact repository provides a frontend solution built using React, Redux, and other related technologies. It utilizes design patterns such as Redux (state management), React Router (routing), and React OAuth Google (authentication) to create a robust and user-friendly application.
 
-If you have any questions or need further assistance, please don't hesitate to reach out. Feel free to explore the Zurich-Frontend repository and unleash the power of frontend development!
+If you have any questions or need further assistance, please don't hesitate to reach out. Feel free to explore the InsuraReact repository and unleash the power of frontend development!
